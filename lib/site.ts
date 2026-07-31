@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://manishagencia.com").replace(/\/$/, "");
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.manishagencia.com";
+export const siteUrl = configuredSiteUrl.replace("://manishagencia.com", "://www.manishagencia.com").replace(/\/$/, "");
 export const siteName = "Manish Agencia Digital";
 
 export function absoluteUrl(path = "/") {
