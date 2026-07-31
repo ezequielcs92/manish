@@ -11,7 +11,7 @@ const links = [
 
 export function SiteHeader() {
   return (
-    <header className="site-header">
+    <><a className="skip-link" href="#inicio">Saltar al contenido</a><header className="site-header">
       <div className="container header-inner">
         <Link className="logo-link" href="/">
           <Logo />
@@ -31,7 +31,7 @@ export function SiteHeader() {
             Hablemos
           </Link>
           <details className="mobile-menu">
-            <summary aria-label="Abrir menú">
+            <summary aria-label="Menú principal">
               <span />
               <span />
             </summary>
@@ -46,6 +46,6 @@ export function SiteHeader() {
           </details>
         </div>
       </div>
-    </header>
+    </header></>
   );
 }

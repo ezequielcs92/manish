@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 export const metadata: Metadata = {
   title: "Gracias",
   description: "Recibimos tu consulta. El equipo de Manish se pondrá en contacto.",
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
 };
 
 export default function GraciasPage() {

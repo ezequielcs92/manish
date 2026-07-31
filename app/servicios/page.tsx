@@ -4,11 +4,9 @@ import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SectionCta } from "@/components/section-cta";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Servicios",
-  description: "Marketing, contenido, creatividad y tecnología conectados para hacer crecer marcas y negocios.",
-};
+export const metadata: Metadata = createPageMetadata("Servicios", "Marketing, contenido, creatividad y tecnología conectados para hacer crecer marcas y negocios.", "/servicios");
 
 const groups = [
   {

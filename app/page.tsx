@@ -1,9 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import brandMark from "@/branding/logos/logo dibujo.svg";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { SectionCta } from "@/components/section-cta";
+import { getSiteContent } from "@/lib/admin-content";
+import { createPageMetadata } from "@/lib/site";
+
+export const metadata: Metadata = createPageMetadata(
+  "Agencia digital",
+  "Estrategia, creatividad y tecnología para marcas que quieren avanzar.",
+  "/",
+);
 
 const services = [
   {
@@ -24,7 +33,7 @@ const services = [
   },
   {
     number: "03",
-    title: "Desarrollo y tecnología",
+    title: "Desarrollo y\u00a0tecnología",
     description:
       "Productos digitales y automatizaciones que simplifican procesos y abren nuevas oportunidades.",
     tags: ["Webs", "E-commerce", "IA", "Software"],
@@ -74,7 +83,10 @@ function ServiceIcon({ name }: { name: string }) {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const siteContent = await getSiteContent().then((result) => result.content).catch(() => ({} as Record<string, string>));
+  const content = (key: string, fallback: string) => siteContent[key] || fallback;
+
   return (
     <>
       <SiteHeader />
@@ -84,14 +96,14 @@ export default function Home() {
           <div className="container hero-grid">
             <div className="hero-copy">
               <p className="eyebrow">
-                <span /> Agencia digital · Ideas en movimiento
+                <span /> {content("home_eyebrow", "Agencia digital · Ideas en movimiento")}
               </p>
               <h1>
-                <span>Ideas que</span>
-                <span><em>mueven</em> marcas.</span>
+                <span>{content("home_title_line_1", "Ideas que")}</span>
+                <span><em>{content("home_title_line_2", "mueven marcas.")}</em></span>
               </h1>
               <p className="hero-lead">
-                Unimos estrategia, creatividad y tecnología para convertir desafíos de negocio en experiencias que hacen avanzar.
+                {content("home_description", "Unimos estrategia, creatividad y tecnología para convertir desafíos de negocio en experiencias que hacen avanzar.")}
               </p>
               <div className="hero-actions">
                 <Link className="button" href="/contacto#formulario">
@@ -171,8 +183,8 @@ export default function Home() {
 
         <div className="kinetic-band" aria-hidden="true">
           <div className="kinetic-track">
-            <span>PENSAR</span><i>✦</i><span>CREAR</span><i>✦</i><span>MEDIR</span><i>✦</i><span>ITERAR</span><i>✦</i>
-            <span>PENSAR</span><i>✦</i><span>CREAR</span><i>✦</i><span>MEDIR</span><i>✦</i><span>ITERAR</span><i>✦</i>
+            <span>ESTRATEGIA</span><i>✦</i><span>DISEÑO</span><i>✦</i><span>CONTENIDO</span><i>✦</i><span>DESARROLLO</span><i>✦</i><span>PERFORMANCE</span><i>✦</i>
+            <span>ESTRATEGIA</span><i>✦</i><span>DISEÑO</span><i>✦</i><span>CONTENIDO</span><i>✦</i><span>DESARROLLO</span><i>✦</i><span>PERFORMANCE</span><i>✦</i>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 # Plan de Desarrollo — Web Manish Agencia Digital
 
-**Stack:** Next.js (App Router) + Tailwind CSS + Postgres + Auth · **Deploy:** Vercel
+**Stack:** Next.js (App Router) + Tailwind CSS + Supabase (Postgres, Auth y Storage) · TinyMCE · **Deploy:** Vercel
 **Formato:** Sitio multipágina + blog + dashboard de administración
 **Dirección visual:** temas claro y oscuro con gradientes violeta-magenta
 
@@ -21,7 +21,7 @@
 
 - [x] Proyecto Next.js con TypeScript, Tailwind y App Router
 - [ ] Estructura de carpetas: `app/(public)/`, `app/(admin)/`, `components/`, `lib/`, `public/assets/`
-- [ ] Base de datos: Postgres (Supabase o Neon) + Prisma o Drizzle
+- [x] Base de datos: Supabase Postgres mediante SDK oficial
 - [ ] Autenticación para el dashboard: Auth.js o Clerk
 - [ ] Storage de imágenes: Vercel Blob, Supabase Storage o Cloudinary
 - [ ] Configurar ESLint + Prettier
@@ -97,20 +97,22 @@ Orden sugerido (de mayor a menor impacto):
 
 ## Fase 4 — Dashboard de administración (`/admin`)
 
-- [ ] Login con roles (admin / editor)
+- [x] Base del dashboard responsive con sesión firmada, rate limiting y temas claro/oscuro
+- [x] Login con Supabase Auth y roles (admin / editor)
 
 ### Gestión del blog
 - [ ] CRUD de posts con editor enriquecido, imagen destacada y categorías/tags
 - [ ] Estados: borrador → publicado, con publicación programada
-- [ ] Campos SEO por post (title, description, slug editable)
+- [x] Campos SEO por post (title, description, slug editable)
 
 ### Gestión del portfolio
-- [ ] CRUD de casos (agregar proyectos nuevos sin tocar código)
+- [x] CRUD de casos (agregar proyectos nuevos sin tocar código)
 - [ ] Subida de imágenes/piezas por caso
 
 ### Leads (CRM liviano)
-- [ ] Bandeja de contactos del formulario con estado (nuevo / contactado / cerrado)
-- [ ] Notas internas por lead + notificación por email al recibir uno nuevo
+- [x] Captación y listado de leads conectado a Supabase
+- [x] Bandeja de contactos del formulario con estado (nuevo / contactado / cerrado)
+- [x] Notas internas por lead + notificación por email al recibir uno nuevo
 
 ### Otras secciones útiles
 - [ ] Edición de contenido dinámico: servicios, equipo, logos de clientes

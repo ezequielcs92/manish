@@ -23,7 +23,7 @@ export function SiteFooter() {
       </div>
       <div className="container footer-bottom">
         <span>© {new Date().getFullYear()} Manish Agencia Digital</span>
-        <Link href="#inicio">Volver arriba ↑</Link>
+        <div><Link href="/privacidad">Privacidad</Link><Link href="#inicio">Volver arriba ↑</Link></div>
       </div>
     </footer>
   );

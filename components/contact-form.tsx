@@ -22,6 +22,8 @@ export function ContactForm() {
       });
 
       if (!response.ok) throw new Error("Contact request failed");
+      const analytics = (window as Window & { umami?: { track: (event: string) => void } }).umami;
+      analytics?.track("contact_submit_success");
       form.reset();
       router.push("/gracias");
     } catch {
@@ -30,7 +32,7 @@ export function ContactForm() {
   }
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit} id="formulario">
+    <form className="contact-form" onSubmit={handleSubmit} id="formulario" aria-busy={status === "submitting"}>
       <label className="form-honeypot" aria-hidden="true">
         <span>Sitio web</span>
         <input name="website" type="text" tabIndex={-1} autoComplete="off" />
@@ -73,7 +75,7 @@ export function ContactForm() {
           <svg className="arrow-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h14m-5-5 5 5-5 5" /></svg>
         </button>
       </div>
-      <p className="form-feedback" aria-live="polite">
+      <p className="form-feedback" aria-live="polite" role={status === "error" ? "alert" : undefined}>
         {status === "error" ? "No pudimos enviar el mensaje. Intentá nuevamente o escribinos por email." : ""}
       </p>
     </form>

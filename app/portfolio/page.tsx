@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PageCta } from "@/components/page-cta";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SectionCta } from "@/components/section-cta";
+import { getPublishedProjects } from "@/lib/admin-content";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Una selección de marcas, sistemas y experiencias digitales desarrolladas por Manish.",
-};
+export const metadata: Metadata = createPageMetadata("Portfolio", "Una selección de marcas, sistemas y experiencias digitales desarrolladas por Manish.", "/portfolio");
 
 const cases = [
   { client: "Goût Pâtisserie", type: "Branding · E-commerce", year: "2026", className: "case-gout", word: "goût", note: "SABOR CON IDENTIDAD" },
@@ -18,7 +18,13 @@ const cases = [
   { client: "Actron", type: "Contenido · Performance", year: "2026", className: "case-actron", word: "ACT/RON", note: "TECNOLOGÍA QUE AVANZA" },
 ];
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const storedProjects = await getPublishedProjects().catch(() => []);
+  const visibleCases = storedProjects.length ? storedProjects.map((project, index) => ({
+    client: project.client, type: project.services, year: project.year || "", className: ["case-gout", "case-ormi", "case-brothers", "case-ridigas", "case-actron"][index % 5],
+    word: project.title, note: project.summary, slug: project.slug,
+  })) : cases.map((project) => ({ ...project, slug: "" }));
+
   return (
     <>
       <SiteHeader />
@@ -34,13 +40,13 @@ export default function PortfolioPage() {
         <section className="inner-section portfolio-section">
           <div className="container portfolio-toolbar" data-reveal>
             <p>TRABAJO SELECCIONADO</p>
-            <div aria-label="Categorías disponibles">
-              <span className="active">Todo</span><span>Marca</span><span>Contenido</span><span>Digital</span>
+            <div aria-label="Disciplinas del trabajo seleccionado">
+              <span>Marketing</span><span>Marca</span><span>Contenido</span><span>Digital</span>
             </div>
           </div>
 
           <div className="container case-grid">
-            {cases.map((project, index) => (
+            {visibleCases.map((project, index) => (
               <article className={`case-card ${project.className} ${index === 0 || index === 3 ? "case-wide" : ""}`} key={project.client} data-reveal data-tilt>
                 <div className="case-art">
                   <div className="case-grid-lines" />
@@ -50,7 +56,7 @@ export default function PortfolioPage() {
                 </div>
                 <div className="case-info">
                   <div><p>{project.type}</p><h2>{project.client}</h2></div>
-                  <span>{project.year}</span>
+                  {project.slug ? <Link href={`/portfolio/${project.slug}`}>Ver caso ↗</Link> : <span>{project.year}</span>}
                 </div>
               </article>
             ))}

@@ -5,11 +5,9 @@ import { PageCta } from "@/components/page-cta";
 import { PageHero } from "@/components/page-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Nosotros",
-  description: "Conocé la forma de pensar y trabajar de Manish Agencia Digital.",
-};
+export const metadata: Metadata = createPageMetadata("Nosotros", "Conocé la forma de pensar y trabajar de Manish Agencia Digital.", "/nosotros");
 
 export default function NosotrosPage() {
   return (

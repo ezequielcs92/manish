@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createLead } from "@/lib/leads";
 
 type ContactPayload = {
   name?: unknown;
@@ -15,6 +16,11 @@ function readText(value: unknown, maxLength: number) {
 
 export async function POST(request: Request) {
   let payload: ContactPayload;
+
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+  if (contentLength > 16_384) {
+    return NextResponse.json({ error: "Solicitud demasiado grande" }, { status: 413 });
+  }
 
   try {
     payload = await request.json() as ContactPayload;
@@ -36,8 +42,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Completá los campos requeridos" }, { status: 400 });
   }
 
+  let leadSaved = false;
+  try {
+    leadSaved = await createLead({ name, company: company || null, email, service, message });
+  } catch {
+    leadSaved = false;
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
+    if (leadSaved) return NextResponse.json({ ok: true, delivery: "database" });
     if (process.env.NODE_ENV === "development") {
       return NextResponse.json({ ok: true, delivery: "development" });
     }
@@ -60,8 +74,9 @@ export async function POST(request: Request) {
   });
 
   if (!response.ok) {
+    if (leadSaved) return NextResponse.json({ ok: true, delivery: "database", notification: false });
     return NextResponse.json({ error: "No se pudo enviar el correo" }, { status: 502 });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, delivery: leadSaved ? "database+email" : "email" });
 }

@@ -1,16 +1,40 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 type Theme = "light" | "dark";
+const storageKey = "manish-theme";
 
 function getCurrentTheme(): Theme {
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
 export function ThemeToggle() {
+  const [theme, setTheme] = useState<Theme | null>(null);
+
+  useEffect(() => {
+    const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+    const initialFrame = requestAnimationFrame(() => setTheme(getCurrentTheme()));
+    const syncWithSystem = (event: MediaQueryListEvent) => {
+      if (!localStorage.getItem(storageKey)) {
+        const nextTheme = event.matches ? "dark" : "light";
+        document.documentElement.dataset.theme = nextTheme;
+        setTheme(nextTheme);
+      }
+    };
+
+    systemTheme.addEventListener("change", syncWithSystem);
+    return () => {
+      cancelAnimationFrame(initialFrame);
+      systemTheme.removeEventListener("change", syncWithSystem);
+    };
+  }, []);
+
   function toggleTheme() {
     const nextTheme = getCurrentTheme() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = nextTheme;
-    localStorage.setItem("manish-theme", nextTheme);
+    localStorage.setItem(storageKey, nextTheme);
+    setTheme(nextTheme);
   }
 
   return (
@@ -18,8 +42,9 @@ export function ThemeToggle() {
       className="theme-toggle"
       type="button"
       onClick={toggleTheme}
-      aria-label="Cambiar tema de color"
-      title="Cambiar tema de color"
+      aria-label={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
+      title={theme === "dark" ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
+      aria-pressed={theme === "dark"}
     >
       <svg className="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="3.5" />
