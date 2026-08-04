@@ -22,8 +22,7 @@ export function ContactForm() {
       });
 
       if (!response.ok) throw new Error("Contact request failed");
-      const analytics = (window as Window & { umami?: { track: (event: string) => void } }).umami;
-      analytics?.track("contact_submit_success");
+      window.gtag?.("event", "generate_lead", { method: "contact_form" });
       form.reset();
       router.push("/gracias");
     } catch {

@@ -1015,6 +1015,12 @@ summary {
 .legal-page section p { color: var(--muted); line-height: 1.8; }
 .legal-page section a { border-bottom: 1px solid var(--primary); color: var(--primary); }
 
+.analytics-consent { position: fixed; z-index: 90; right: 24px; bottom: 24px; width: min(390px, calc(100% - 32px)); padding: 22px; border: 1px solid var(--line); border-radius: 3px 22px 3px 3px; background: var(--surface); box-shadow: var(--shadow); }
+.analytics-consent strong { display: block; margin-bottom: 8px; font-size: 14px; }
+.analytics-consent p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.analytics-consent > div { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.analytics-consent button:not(.button) { padding: 0 10px; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 600; }
+
 /* Motion and dimensional layer */
 .hero-stage {
   --tilt-x: 0deg;
