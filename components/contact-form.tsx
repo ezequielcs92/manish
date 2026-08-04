@@ -23,6 +23,7 @@ export function ContactForm() {
 
       if (!response.ok) throw new Error("Contact request failed");
       window.gtag?.("event", "generate_lead", { method: "contact_form" });
+      window.dataLayer?.push({ event: "generate_lead", method: "contact_form" });
       form.reset();
       router.push("/gracias");
     } catch {
