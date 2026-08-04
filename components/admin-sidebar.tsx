@@ -9,6 +9,7 @@ import { getSupabaseBrowser } from "@/lib/supabase/browser";
 const links = [
   { href: "/admin", label: "Resumen", icon: "grid" },
   { href: "/admin/leads", label: "Leads", icon: "inbox" },
+  { href: "/admin/analitica", label: "Analítica", icon: "analytics" },
   { href: "/admin/posts", label: "Blog", icon: "edit" },
   { href: "/admin/portfolio", label: "Portfolio", icon: "folder" },
   { href: "/admin/sitio", label: "Sitio", icon: "site" },
@@ -19,6 +20,7 @@ function NavIcon({ name }: { name: string }) {
   if (name === "edit") return <svg viewBox="0 0 24 24"><path d="M5 19h4L19 9l-4-4L5 15v4ZM13 7l4 4" /></svg>;
   if (name === "folder") return <svg viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v11H3z" /></svg>;
   if (name === "site") return <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" /></svg>;
+  if (name === "analytics") return <svg viewBox="0 0 24 24"><path d="M5 19V9M12 19V5M19 19v-7" /></svg>;
   return <svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" /></svg>;
 }
 
