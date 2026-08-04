@@ -8,6 +8,7 @@ export type AnalyticsReport = {
   summary: { activeUsers: number; sessions: number; pageViews: number; events: number };
   pages: Row[];
   channels: Row[];
+  campaigns: Row[];
   leads: number;
 };
 
@@ -16,6 +17,7 @@ const emptyReport: AnalyticsReport = {
   summary: { activeUsers: 0, sessions: 0, pageViews: 0, events: 0 },
   pages: [],
   channels: [],
+  campaigns: [],
   leads: 0,
 };
 
@@ -30,7 +32,7 @@ function rows(response: { data?: { rows?: Array<{ dimensionValues?: Array<{ valu
   }));
 }
 
-export async function getAnalyticsReport(): Promise<AnalyticsReport> {
+export async function getAnalyticsReport(days = 30): Promise<AnalyticsReport> {
   const propertyId = process.env.GA_PROPERTY_ID;
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
@@ -43,8 +45,8 @@ export async function getAnalyticsReport(): Promise<AnalyticsReport> {
     });
     const analytics = google.analyticsdata({ version: "v1beta", auth });
     const property = `properties/${propertyId}`;
-    const dateRanges = [{ startDate: "30daysAgo", endDate: "today" }];
-    const [summaryResponse, pagesResponse, channelsResponse, leadsResponse] = await Promise.all([
+    const dateRanges = [{ startDate: `${days}daysAgo`, endDate: "today" }];
+    const [summaryResponse, pagesResponse, channelsResponse, campaignsResponse, leadsResponse] = await Promise.all([
       analytics.properties.runReport({
         property,
         requestBody: { dateRanges, metrics: [{ name: "activeUsers" }, { name: "sessions" }, { name: "screenPageViews" }, { name: "eventCount" }] },
@@ -59,6 +61,10 @@ export async function getAnalyticsReport(): Promise<AnalyticsReport> {
       }),
       analytics.properties.runReport({
         property,
+        requestBody: { dateRanges, dimensions: [{ name: "sessionCampaignName" }], metrics: [{ name: "sessions" }], limit: "5", orderBys: [{ metric: { metricName: "sessions" }, desc: true }] },
+      }),
+      analytics.properties.runReport({
+        property,
         requestBody: { dateRanges, dimensions: [{ name: "eventName" }], metrics: [{ name: "eventCount" }], dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { matchType: "EXACT", value: "generate_lead" } } } },
       }),
     ]);
@@ -69,6 +75,7 @@ export async function getAnalyticsReport(): Promise<AnalyticsReport> {
       summary: { activeUsers: numberValue(summaryValues[0]), sessions: numberValue(summaryValues[1]), pageViews: numberValue(summaryValues[2]), events: numberValue(summaryValues[3]) },
       pages: rows(pagesResponse),
       channels: rows(channelsResponse),
+      campaigns: rows(campaignsResponse),
       leads: numberValue(leadsResponse.data.rows?.[0]?.metricValues?.[0]),
     };
   } catch {

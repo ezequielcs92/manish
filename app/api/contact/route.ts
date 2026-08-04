@@ -8,6 +8,7 @@ type ContactPayload = {
   service?: unknown;
   message?: unknown;
   website?: unknown;
+  turnstileToken?: unknown;
 };
 
 function readText(value: unknown, maxLength: number) {
@@ -30,6 +31,21 @@ export async function POST(request: Request) {
 
   if (readText(payload.website, 200)) {
     return NextResponse.json({ ok: true });
+  }
+
+  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+  if (process.env.NODE_ENV === "production" && !turnstileSecret) {
+    return NextResponse.json({ error: "Protección antispam no configurada" }, { status: 503 });
+  }
+  if (turnstileSecret) {
+    const token = readText(payload.turnstileToken, 2048);
+    if (!token) return NextResponse.json({ error: "Verificación antispam requerida" }, { status: 400 });
+    const verification = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret: turnstileSecret, response: token, ...(request.headers.get("CF-Connecting-IP") ? { remoteip: request.headers.get("CF-Connecting-IP")! } : {}) }),
+    }).then((response) => response.json() as Promise<{ success?: boolean }>).catch(() => ({ success: false }));
+    if (!verification.success) return NextResponse.json({ error: "No se pudo validar la verificación antispam" }, { status: 400 });
   }
 
   const name = readText(payload.name, 100);

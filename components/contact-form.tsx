@@ -2,13 +2,21 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { TurnstileField } from "./turnstile-field";
 
 export function ContactForm() {
   const router = useRouter();
-  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "error" | "captcha">("idle");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaReset, setCaptchaReset] = useState(0);
+  const captchaEnabled = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (captchaEnabled && !captchaToken) {
+      setStatus("captcha");
+      return;
+    }
     setStatus("submitting");
 
     const form = event.currentTarget;
@@ -18,15 +26,18 @@ export function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, turnstileToken: captchaToken }),
       });
 
       if (!response.ok) throw new Error("Contact request failed");
       window.gtag?.("event", "generate_lead", { method: "contact_form" });
       window.dataLayer?.push({ event: "generate_lead", method: "contact_form" });
+      setCaptchaToken("");
       form.reset();
       router.push("/gracias");
     } catch {
+      setCaptchaToken("");
+      setCaptchaReset((value) => value + 1);
       setStatus("error");
     }
   }
@@ -68,15 +79,16 @@ export function ContactForm() {
         <span>Contanos un poco más *</span>
         <textarea name="message" rows={6} placeholder="Objetivos, tiempos, contexto..." required />
       </label>
+      {captchaEnabled ? <TurnstileField onToken={(token) => { setCaptchaToken(token); setStatus("idle"); }} resetSignal={captchaReset} /> : null}
       <div className="form-submit">
         <p>Usaremos tus datos únicamente para responder esta consulta.</p>
-        <button className="button" type="submit" disabled={status === "submitting"}>
+        <button className="button" type="submit" disabled={status === "submitting" || (captchaEnabled && !captchaToken)}>
           {status === "submitting" ? "Enviando..." : "Enviar consulta"}
           <svg className="arrow-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h14m-5-5 5 5-5 5" /></svg>
         </button>
       </div>
       <p className="form-feedback" aria-live="polite" role={status === "error" ? "alert" : undefined}>
-        {status === "error" ? "No pudimos enviar el mensaje. Intentá nuevamente o escribinos por email." : ""}
+        {status === "captcha" ? "Completá la verificación antispam para continuar." : status === "error" ? "No pudimos enviar el mensaje. Intentá nuevamente o escribinos por email." : ""}
       </p>
     </form>
   );
