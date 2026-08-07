@@ -64,10 +64,10 @@ for (const [slug, url] of sources) {
       await page.waitForTimeout(1200);
     }
     await page.keyboard.press("Escape").catch(() => {});
-    await page.screenshot({ path: filePath, type: "png", fullPage: false, ...(isInstagram ? { clip: { x: 0, y: 0, width: 390, height: 219 } } : {}) });
+    await page.screenshot({ path: filePath, type: "png", fullPage: false, ...(isInstagram ? { clip: { x: 0, y: 64, width: 390, height: 219 } } : {}) });
     const file = await readFile(filePath);
     const optimized = await sharp(file).webp({ quality: 82, effort: 4 }).toBuffer();
-    const storagePath = `portfolio/${slug}.webp`;
+    const storagePath = `portfolio/v2/${slug}.webp`;
     const { error: uploadError } = await supabase.storage.from("media").upload(storagePath, optimized, { contentType: "image/webp", cacheControl: "31536000", upsert: true });
     if (uploadError) throw uploadError;
     const { data } = supabase.storage.from("media").getPublicUrl(storagePath);

@@ -1349,7 +1349,7 @@ summary {
   .stage-card-three { animation: chip-float 4.4s ease-in-out -0.8s infinite; }
   .stage-status i { animation: status-pulse 1.9s ease-out infinite; }
   .client-track { animation: client-scroll 24s linear infinite; }
-  .client-proof-track { animation: client-scroll 38s linear infinite; }
+  .client-proof-track { animation: client-scroll 24s linear infinite; }
   .kinetic-track { animation: ribbon-scroll 17s linear infinite; }
 
   @keyframes orbit-spin {
@@ -2965,6 +2965,7 @@ summary {
 }
 
 .case-editorial-meta { display: flex; gap: 25px; margin-top: 34px; color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; }
+.case-project-action { margin-top: 18px; }
 
 .editorial-body {
   max-width: 850px;

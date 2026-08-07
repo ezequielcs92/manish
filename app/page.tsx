@@ -5,7 +5,7 @@ import brandMark from "@/branding/logos/logo dibujo.svg";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { SectionCta } from "@/components/section-cta";
-import { getFeaturedProjects, getSiteContent } from "@/lib/admin-content";
+import { getFeaturedProjects, getPublishedProjects, getSiteContent } from "@/lib/admin-content";
 import { createPageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = createPageMetadata(
@@ -41,7 +41,7 @@ const services = [
   },
 ];
 
-const clients = ["Goût", "Ormiflex", "Brothers", "Ridigas", "Actron"];
+const fallbackClients = ["Goût", "Ormiflex", "Brothers", "Ridigas", "Actron"];
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -84,10 +84,12 @@ function ServiceIcon({ name }: { name: string }) {
 }
 
 export default async function Home() {
-  const [siteContent, featuredProjects] = await Promise.all([
+  const [siteContent, featuredProjects, portfolioProjects] = await Promise.all([
     getSiteContent().then((result) => result.content).catch(() => ({} as Record<string, string>)),
     getFeaturedProjects().catch(() => []),
+    getPublishedProjects().catch(() => []),
   ]);
+  const clients = portfolioProjects.length ? portfolioProjects.map((project) => project.client) : fallbackClients;
   const content = (key: string, fallback: string) => siteContent[key] || fallback;
 
   return (
