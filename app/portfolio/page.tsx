@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { PageCta } from "@/components/page-cta";
 import { PageHero } from "@/components/page-hero";
+import { PortfolioFilter, type PortfolioFilterCase } from "@/components/portfolio-filter";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SectionCta } from "@/components/section-cta";
@@ -20,15 +19,6 @@ const cases = [
   { client: "Ridigas", type: "Identidad · Digital", year: "2026", className: "case-ridigas", word: "RIDI/GAS" },
   { client: "Actron", type: "Contenido · Performance", year: "2026", className: "case-actron", word: "ACT/RON" },
 ];
-
-const categoryOptions = [
-  ["all", "Todo"],
-  ["redes", "Manejo de redes"],
-  ["contenido", "Creación de contenido"],
-  ["diseno", "Diseño gráfico"],
-  ["desarrollo", "Desarrollo"],
-  ["ads", "Ads"],
-] as const;
 
 function projectCategories(services: string) {
   const value = services.toLowerCase();
@@ -51,15 +41,12 @@ function shuffle<T>(items: T[]) {
 
 export const dynamic = "force-dynamic";
 
-export default async function PortfolioPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
-  const params = await searchParams;
-  const activeCategory = categoryOptions.some(([value]) => value === params.category) ? params.category ?? "all" : "all";
+export default async function PortfolioPage() {
   const storedProjects = await getPublishedProjects().catch(() => []);
-  const visibleCases = storedProjects.length ? shuffle(storedProjects.map((project, index) => ({
+  const visibleCases: PortfolioFilterCase[] = storedProjects.length ? shuffle(storedProjects.map((project, index) => ({
     client: project.client, type: project.services, year: project.year || "", className: ["case-gout", "case-ormi", "case-brothers", "case-ridigas", "case-actron"][index % 5],
     word: project.title, slug: project.slug, coverImageUrl: project.coverImageUrl, externalUrl: portfolioLinks[project.slug], categories: project.categories.length ? project.categories : projectCategories(project.services),
-  }))) : shuffle(cases.map((project) => ({ ...project, slug: "", coverImageUrl: null, externalUrl: undefined, categories: projectCategories(project.type) })));
-  const filteredCases = activeCategory === "all" ? visibleCases : visibleCases.filter((project) => project.categories.includes(activeCategory));
+  }))) as PortfolioFilterCase[] : shuffle(cases.map((project) => ({ ...project, slug: "", coverImageUrl: null, externalUrl: undefined, categories: projectCategories(project.type) })));
 
   return (
     <>
@@ -74,32 +61,7 @@ export default async function PortfolioPage({ searchParams }: { searchParams: Pr
         />
 
         <section className="inner-section portfolio-section">
-          <div className="container portfolio-toolbar" data-reveal>
-            <p>TRABAJO SELECCIONADO</p>
-            <div aria-label="Disciplinas del trabajo seleccionado">
-              {categoryOptions.map(([value, label]) => <Link scroll className={activeCategory === value ? "active" : ""} href={value === "all" ? "/portfolio" : `/portfolio?category=${value}`} aria-current={activeCategory === value ? "page" : undefined} key={value}>{label}</Link>)}
-            </div>
-          </div>
-
-          <div className="container case-grid">
-            {filteredCases.map((project) => (
-              <article className={`case-card ${project.className}`} key={project.client} data-reveal data-tilt>
-                <div className={`case-art${project.coverImageUrl ? " has-cover" : ""}`}>
-                  {project.coverImageUrl ? <><Image src={project.coverImageUrl} alt={`${project.client} - proyecto realizado por Manish`} fill sizes="(max-width: 640px) 100vw, 50vw" /><i className="case-cover-shade" /></> : null}
-                  <div className="case-grid-lines" />
-                  {!project.coverImageUrl ? <span className="case-word">{project.word}</span> : null}
-                  <i className="case-shape shape-one" /><i className="case-shape shape-two" />
-                  {project.externalUrl ? <a className="case-cover-link" href={project.externalUrl} target="_blank" rel="noreferrer" aria-label={`Abrir enlace de ${project.client}`} /> : null}
-                </div>
-                <div className="case-info">
-                  <p>{project.type}</p>
-                  <h2>{project.client}</h2>
-                  <div className="case-info-links">{project.externalUrl ? <a className="button button-small case-action" href={project.externalUrl} target="_blank" rel="noreferrer">Visitar <svg className="arrow-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5m-8 0h8v8" /></svg></a> : null}{project.slug ? <Link className="button button-small case-action case-action-secondary" href={`/portfolio/${project.slug}`}>Ver caso <svg className="arrow-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5m-8 0h8v8" /></svg></Link> : null}</div>
-                </div>
-              </article>
-            ))}
-            {!filteredCases.length ? <div className="portfolio-no-results"><h2>No encontramos casos en esta categoría.</h2><Link href="/portfolio">Ver todo el trabajo →</Link></div> : null}
-          </div>
+          <PortfolioFilter cases={visibleCases} />
           <div className="container"><SectionCta label="¿Te imaginás acá?" text="Tu próximo proyecto puede empezar con una conversación de treinta minutos." /></div>
         </section>
 

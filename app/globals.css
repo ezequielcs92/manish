@@ -1978,12 +1978,12 @@ summary {
 }
 
 .portfolio-toolbar > div { display: flex; gap: 8px; }
-.portfolio-toolbar > div a { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 12px; }
-.portfolio-toolbar > div a:hover { border-color: var(--primary); color: var(--text); }
+.portfolio-toolbar > div a, .portfolio-toolbar > div button { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; font: inherit; font-size: 12px; }
+.portfolio-toolbar > div a:hover, .portfolio-toolbar > div button:hover { border-color: var(--primary); color: var(--text); }
 .portfolio-toolbar > div .active { border-color: var(--primary); background: var(--primary); color: #fff; }
 .portfolio-no-results { grid-column: 1 / -1; padding: 70px 30px; border: 1px solid var(--line); background: var(--surface); text-align: center; }
 .portfolio-no-results h2 { margin: 0 0 18px; font-size: 24px; }
-.portfolio-no-results a { color: var(--primary); font-size: 12px; font-weight: 600; }
+.portfolio-no-results a, .portfolio-no-results button { border: 0; background: transparent; color: var(--primary); cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; }
 
 .case-grid {
   display: grid;
