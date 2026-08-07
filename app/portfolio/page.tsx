@@ -94,7 +94,7 @@ export default async function PortfolioPage({ searchParams }: { searchParams: Pr
                 <div className="case-info">
                   <p>{project.type}</p>
                   <h2>{project.client}</h2>
-                  <div className="case-info-links">{project.externalUrl ? <a className="case-action case-action-primary" href={project.externalUrl} target="_blank" rel="noreferrer">Visitar <span>↗</span></a> : null}{project.slug ? <Link className="case-action" href={`/portfolio/${project.slug}`}>Ver caso <span>↗</span></Link> : null}</div>
+                  <div className="case-info-links">{project.externalUrl ? <a className="button button-small case-action" href={project.externalUrl} target="_blank" rel="noreferrer">Visitar <svg className="arrow-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5m-8 0h8v8" /></svg></a> : null}{project.slug ? <Link className="button button-small case-action case-action-secondary" href={`/portfolio/${project.slug}`}>Ver caso <svg className="arrow-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5m-8 0h8v8" /></svg></Link> : null}</div>
                 </div>
               </article>
             ))}
@@ -106,7 +106,12 @@ export default async function PortfolioPage({ searchParams }: { searchParams: Pr
         <section className="client-proof">
           <div className="container client-proof-layout" data-reveal>
             <p>Cuentas y proyectos con los que trabajamos</p>
-            <div>{visibleCases.map((project) => <span key={project.client}>{project.client}</span>)}</div>
+            <div className="client-proof-marquee" aria-label="Clientes y proyectos">
+              <div className="client-proof-track">
+                <div className="client-proof-list">{visibleCases.map((project) => <span key={project.client}>{project.client}</span>)}</div>
+                <div className="client-proof-list" aria-hidden="true">{visibleCases.map((project) => <span key={`repeat-${project.client}`}>{project.client}</span>)}</div>
+              </div>
+            </div>
           </div>
         </section>
 

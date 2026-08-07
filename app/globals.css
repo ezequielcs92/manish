@@ -1349,6 +1349,7 @@ summary {
   .stage-card-three { animation: chip-float 4.4s ease-in-out -0.8s infinite; }
   .stage-status i { animation: status-pulse 1.9s ease-out infinite; }
   .client-track { animation: client-scroll 24s linear infinite; }
+  .client-proof-track { animation: client-scroll 38s linear infinite; }
   .kinetic-track { animation: ribbon-scroll 17s linear infinite; }
 
   @keyframes orbit-spin {
@@ -2008,12 +2009,11 @@ summary {
 .case-cover-shade { position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(16,8,27,.05), rgba(16,8,27,.72)); }
 .case-art.has-cover .case-grid-lines { z-index: 2; }
 .case-cover-link { position: absolute; z-index: 4; inset: 0; }
-.case-info-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-.case-action { display: inline-flex; align-items: center; gap: 18px; padding: 10px 14px; border: 1px solid var(--line); color: var(--text); font-size: 11px; font-weight: 600; letter-spacing: .03em; }
-.case-action:hover { border-color: var(--primary); color: var(--primary); }
-.case-action-primary { border-color: var(--primary); background: var(--primary); color: #fff; }
-.case-action-primary:hover { background: transparent; color: var(--primary); }
-.case-action span { font-size: 15px; line-height: 1; }
+.case-info-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.case-action { min-height: 42px; gap: 12px; font-size: 12px; }
+.case-action .arrow-icon { width: 16px; }
+.case-action-secondary { border: 1px solid var(--line); background: transparent; color: var(--text); }
+.case-action-secondary:hover { border-color: var(--primary); background: var(--surface-soft); color: var(--text); }
 .case-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 55px 55px; mask-image: linear-gradient(135deg, black, transparent 70%); }
 .case-word { position: absolute; z-index: 2; top: 50%; left: 50%; width: 90%; overflow-wrap: anywhere; color: #fff; font-family: var(--font-adumu), Impact, sans-serif; font-size: clamp(55px, 9vw, 138px); line-height: 0.8; text-align: center; transform: translate(-50%, -50%) rotate(-3deg); }
 .case-shape { position: absolute; border: 2px solid rgba(255,255,255,.35); border-radius: 50%; }
@@ -2038,8 +2038,10 @@ summary {
 .client-proof { padding: 80px 0; border-top: 1px solid var(--line); }
 .client-proof-layout { display: grid; grid-template-columns: .45fr 1.55fr; align-items: center; gap: 60px; }
 .client-proof p { margin: 0; color: var(--muted); font-size: 12px; text-transform: uppercase; }
-.client-proof-layout > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 25px; }
-.client-proof-layout > div span { font-family: var(--font-adumu), Impact, sans-serif; font-size: 21px; opacity: .62; }
+.client-proof-marquee { min-width: 0; overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 7%, black 93%, transparent); }
+.client-proof-track { display: flex; width: max-content; }
+.client-proof-list { display: flex; width: max-content; flex: 0 0 auto; align-items: center; gap: 58px; padding-right: 58px; }
+.client-proof-list span { white-space: nowrap; font-family: var(--font-adumu), Impact, sans-serif; font-size: 21px; opacity: .62; }
 
 .about-manifesto-layout { display: grid; grid-template-columns: .18fr 1.82fr; gap: 70px; }
 .vertical-label { writing-mode: vertical-rl; transform: rotate(180deg); }
@@ -2195,7 +2197,7 @@ summary {
   .case-wide { grid-column: auto; }
   .case-art, .case-wide .case-art { min-height: 0; aspect-ratio: 16 / 9; }
   .client-proof-layout { grid-template-columns: 1fr; gap: 28px; }
-  .client-proof-layout > div { justify-content: flex-start; }
+  .client-proof-list { gap: 38px; padding-right: 38px; }
   .about-columns { grid-template-columns: 1fr; gap: 25px; margin-top: 40px; }
   .culture-section { padding: 80px 0; }
   .culture-layout { grid-template-columns: 1fr; }
@@ -2962,6 +2964,8 @@ summary {
   font-size: 18px;
 }
 
+.case-editorial-meta { display: flex; gap: 25px; margin-top: 34px; color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; }
+
 .editorial-body {
   max-width: 850px;
   padding-top: 80px;
@@ -3045,6 +3049,7 @@ summary {
   .editorial-detail > header, .case-detail > header { padding-top: 70px; padding-bottom: 60px; }
   .editorial-detail header > p, .case-detail header > p { margin-top: 50px; }
   .editorial-detail h1, .case-detail h1 { font-size: 54px; }
+  .case-editorial-meta { margin-top: 25px; }
   .editorial-body { padding-top: 55px; padding-bottom: 80px; }
   .editorial-cover { width: calc(100% - 32px); min-height: 48vw; margin-bottom: 55px; border-radius: 3px 22px 3px 3px; }
   .case-detail-cover { min-height: 360px; }
