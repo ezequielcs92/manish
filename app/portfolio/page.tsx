@@ -92,8 +92,9 @@ export default async function PortfolioPage({ searchParams }: { searchParams: Pr
                   {project.externalUrl ? <a className="case-cover-link" href={project.externalUrl} target="_blank" rel="noreferrer" aria-label={`Abrir enlace de ${project.client}`} /> : null}
                 </div>
                 <div className="case-info">
-                  <div><p>{project.type}</p><h2>{project.client}</h2></div>
-                  <div className="case-info-links">{project.externalUrl ? <a href={project.externalUrl} target="_blank" rel="noreferrer">Visitar ↗</a> : null}{project.slug ? <Link href={`/portfolio/${project.slug}`}>Ver caso ↗</Link> : <span>{project.year}</span>}</div>
+                  <p>{project.type}</p>
+                  <h2>{project.client}</h2>
+                  <div className="case-info-links">{project.externalUrl ? <a className="case-action case-action-primary" href={project.externalUrl} target="_blank" rel="noreferrer">Visitar <span>↗</span></a> : null}{project.slug ? <Link className="case-action" href={`/portfolio/${project.slug}`}>Ver caso <span>↗</span></Link> : null}</div>
                 </div>
               </article>
             ))}

@@ -2006,19 +2006,22 @@ summary {
 .case-art.has-cover > img { object-fit: cover; transition: transform 500ms ease; }
 .case-card:hover .case-art.has-cover > img { transform: scale(1.04); }
 .case-cover-shade { position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(16,8,27,.05), rgba(16,8,27,.72)); }
-.case-art.has-cover .case-grid-lines, .case-art.has-cover .case-note { z-index: 2; }
+.case-art.has-cover .case-grid-lines { z-index: 2; }
 .case-cover-link { position: absolute; z-index: 4; inset: 0; }
-.case-info-links { display: flex; align-items: center; gap: 16px; }
+.case-info-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.case-action { display: inline-flex; align-items: center; gap: 18px; padding: 10px 14px; border: 1px solid var(--line); color: var(--text); font-size: 11px; font-weight: 600; letter-spacing: .03em; }
+.case-action:hover { border-color: var(--primary); color: var(--primary); }
+.case-action-primary { border-color: var(--primary); background: var(--primary); color: #fff; }
+.case-action-primary:hover { background: transparent; color: var(--primary); }
+.case-action span { font-size: 15px; line-height: 1; }
 .case-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 55px 55px; mask-image: linear-gradient(135deg, black, transparent 70%); }
 .case-word { position: absolute; z-index: 2; top: 50%; left: 50%; width: 90%; overflow-wrap: anywhere; color: #fff; font-family: var(--font-adumu), Impact, sans-serif; font-size: clamp(55px, 9vw, 138px); line-height: 0.8; text-align: center; transform: translate(-50%, -50%) rotate(-3deg); }
-.case-note { position: absolute; z-index: 2; right: 25px; bottom: 22px; color: rgba(255,255,255,.8); font-size: 11px; font-weight: 600; letter-spacing: .18em; }
 .case-shape { position: absolute; border: 2px solid rgba(255,255,255,.35); border-radius: 50%; }
 .case-shape.shape-one { top: -15%; right: -4%; width: 48%; aspect-ratio: 1; }
 .case-shape.shape-two { bottom: -28%; left: 12%; width: 40%; aspect-ratio: 1; }
-.case-info { display: flex; align-items: end; justify-content: space-between; padding-top: 18px; transform: translateZ(25px); }
+.case-info { padding-top: 18px; transform: translateZ(25px); }
 .case-info p { margin: 0; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 .case-info h2 { margin: 5px 0 0; font-family: var(--font-adumu), Impact, sans-serif; font-size: 27px; font-weight: 400; }
-.case-info > span { color: var(--muted); font-size: 12px; }
 
 .case-gout .case-art { background: #e991a1; }
 .case-gout .case-word { color: #4c1731; font-family: Georgia, serif; font-style: italic; font-weight: 700; }
