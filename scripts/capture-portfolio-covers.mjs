@@ -47,18 +47,23 @@ const sources = [
 
 await mkdir(outputDir, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: browserPath });
-const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
-await page.setExtraHTTPHeaders({ "Accept-Language": "es-AR,es;q=0.9,en;q=0.8" });
-page.setDefaultTimeout(30000);
 
 for (const [slug, url] of sources) {
   const filePath = join(outputDir, `${slug}.png`);
+  const isInstagram = url.includes("instagram.com");
+  const page = await browser.newPage({ viewport: isInstagram ? { width: 390, height: 844 } : { width: 1200, height: 675 }, deviceScaleFactor: isInstagram ? 3 : 1 });
+  await page.setExtraHTTPHeaders({ "Accept-Language": "es-AR,es;q=0.9,en;q=0.8" });
+  page.setDefaultTimeout(30000);
   try {
     const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30000 });
     if (response && response.status() >= 400) throw new Error(`HTTP ${response.status()}`);
     await page.waitForTimeout(2500);
+    if (isInstagram) {
+      await page.evaluate(() => window.scrollTo(0, 360));
+      await page.waitForTimeout(1200);
+    }
     await page.keyboard.press("Escape").catch(() => {});
-    await page.screenshot({ path: filePath, type: "png", fullPage: false });
+    await page.screenshot({ path: filePath, type: "png", fullPage: false, ...(isInstagram ? { clip: { x: 0, y: 0, width: 390, height: 219 } } : {}) });
     const file = await readFile(filePath);
     const storagePath = `portfolio/${slug}.png`;
     const { error: uploadError } = await supabase.storage.from("media").upload(storagePath, file, { contentType: "image/png", cacheControl: "31536000", upsert: true });
@@ -70,6 +75,7 @@ for (const [slug, url] of sources) {
   } catch (error) {
     console.error(`${slug}: skipped (${error instanceof Error ? error.message : String(error)})`);
   }
+  await page.close();
 }
 
 await browser.close();

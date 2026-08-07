@@ -1989,8 +1989,8 @@ summary {
 }
 
 .case-wide { grid-column: auto; }
-.case-wide .case-art { min-height: 470px; }
-.case-art { position: relative; overflow: hidden; min-height: 470px; background: #7c579b; transform: translateZ(15px); }
+.case-wide .case-art { min-height: 0; }
+.case-art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #7c579b; transform: translateZ(15px); }
 .case-art.has-cover { background: var(--dark); }
 .case-art.has-cover > img { object-fit: cover; transition: transform 500ms ease; }
 .case-card:hover .case-art.has-cover > img { transform: scale(1.04); }
@@ -2143,7 +2143,7 @@ summary {
   .process-grid { grid-template-columns: repeat(2, 1fr); }
   .process-grid article:nth-child(2) { border-right: 0; }
   .process-grid article:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
-  .case-wide .case-art { min-height: 510px; }
+  .case-wide .case-art { min-height: 0; }
   .about-manifesto-layout { grid-template-columns: 1fr; }
   .vertical-label { display: none; }
   .culture-layout { grid-template-columns: .7fr 1.3fr; gap: 50px; }
@@ -2179,7 +2179,7 @@ summary {
   .portfolio-toolbar > div { width: 100%; overflow-x: auto; padding-bottom: 5px; }
   .case-grid { grid-template-columns: 1fr; gap: 45px; }
   .case-wide { grid-column: auto; }
-  .case-art, .case-wide .case-art { min-height: 340px; }
+  .case-art, .case-wide .case-art { min-height: 0; aspect-ratio: 16 / 9; }
   .client-proof-layout { grid-template-columns: 1fr; gap: 28px; }
   .client-proof-layout > div { justify-content: flex-start; }
   .about-columns { grid-template-columns: 1fr; gap: 25px; margin-top: 40px; }

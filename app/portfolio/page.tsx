@@ -21,35 +21,12 @@ const cases = [
   { client: "Actron", type: "Contenido · Performance", year: "2026", className: "case-actron", word: "ACT/RON", note: "TECNOLOGÍA QUE AVANZA" },
 ];
 
-const categoryOptions = [
-  ["all", "Todo"],
-  ["redes", "Manejo de redes"],
-  ["contenido", "Creación de contenido"],
-  ["diseno", "Diseño gráfico"],
-  ["desarrollo", "Desarrollo"],
-  ["ads", "Ads"],
-] as const;
-
-function projectCategories(services: string) {
-  const value = services.toLowerCase();
-  return [
-    value.match(/redes|social/) ? "redes" : null,
-    value.match(/contenido/) ? "contenido" : null,
-    value.match(/diseño|diseno|branding|merch/) ? "diseno" : null,
-    value.match(/web|digital|desarrollo|woocommerce|e-commerce|software/) ? "desarrollo" : null,
-    value.match(/ads|paid/) ? "ads" : null,
-  ].filter((category): category is string => Boolean(category));
-}
-
-export default async function PortfolioPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
-  const params = await searchParams;
-  const activeCategory = categoryOptions.some(([value]) => value === params.category) ? params.category ?? "all" : "all";
+export default async function PortfolioPage() {
   const storedProjects = await getPublishedProjects().catch(() => []);
   const visibleCases = storedProjects.length ? storedProjects.map((project, index) => ({
     client: project.client, type: project.services, year: project.year || "", className: ["case-gout", "case-ormi", "case-brothers", "case-ridigas", "case-actron"][index % 5],
-    word: project.title, note: project.summary, slug: project.slug, coverImageUrl: project.coverImageUrl, externalUrl: portfolioLinks[project.slug], categories: projectCategories(project.services),
-  })) : cases.map((project) => ({ ...project, slug: "", coverImageUrl: null, externalUrl: undefined, categories: projectCategories(project.type) }));
-  const filteredCases = activeCategory === "all" ? visibleCases : visibleCases.filter((project) => project.categories.includes(activeCategory));
+    word: project.title, note: project.summary, slug: project.slug, coverImageUrl: project.coverImageUrl, externalUrl: portfolioLinks[project.slug],
+  })) : cases.map((project) => ({ ...project, slug: "", coverImageUrl: null, externalUrl: undefined }));
 
   return (
     <>
@@ -66,13 +43,10 @@ export default async function PortfolioPage({ searchParams }: { searchParams: Pr
         <section className="inner-section portfolio-section">
           <div className="container portfolio-toolbar" data-reveal>
             <p>TRABAJO SELECCIONADO</p>
-            <div aria-label="Disciplinas del trabajo seleccionado">
-              {categoryOptions.map(([value, label]) => <Link className={activeCategory === value ? "active" : ""} href={value === "all" ? "/portfolio" : `/portfolio?category=${value}`} aria-current={activeCategory === value ? "page" : undefined} key={value}>{label}</Link>)}
-            </div>
           </div>
 
           <div className="container case-grid">
-            {filteredCases.map((project, index) => (
+            {visibleCases.map((project, index) => (
               <article className={`case-card ${project.className} ${index === 0 || index === 3 ? "case-wide" : ""}`} key={project.client} data-reveal data-tilt>
                 <div className={`case-art${project.coverImageUrl ? " has-cover" : ""}`}>
                   {project.coverImageUrl ? <><Image src={project.coverImageUrl} alt={`${project.client} - proyecto realizado por Manish`} fill sizes="(max-width: 640px) 100vw, 50vw" /><i className="case-cover-shade" /></> : null}
@@ -88,7 +62,6 @@ export default async function PortfolioPage({ searchParams }: { searchParams: Pr
                 </div>
               </article>
             ))}
-            {!filteredCases.length ? <div className="portfolio-no-results"><h2>No encontramos casos en esta categoría.</h2><Link href="/portfolio">Ver todo el trabajo →</Link></div> : null}
           </div>
           <div className="container"><SectionCta label="¿Te imaginás acá?" text="Tu próximo proyecto puede empezar con una conversación de treinta minutos." /></div>
         </section>
