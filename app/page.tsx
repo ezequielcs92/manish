@@ -5,7 +5,7 @@ import brandMark from "@/branding/logos/logo dibujo.svg";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { SectionCta } from "@/components/section-cta";
-import { getSiteContent } from "@/lib/admin-content";
+import { getFeaturedProjects, getSiteContent } from "@/lib/admin-content";
 import { createPageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = createPageMetadata(
@@ -84,7 +84,10 @@ function ServiceIcon({ name }: { name: string }) {
 }
 
 export default async function Home() {
-  const siteContent = await getSiteContent().then((result) => result.content).catch(() => ({} as Record<string, string>));
+  const [siteContent, featuredProjects] = await Promise.all([
+    getSiteContent().then((result) => result.content).catch(() => ({} as Record<string, string>)),
+    getFeaturedProjects().catch(() => []),
+  ]);
   const content = (key: string, fallback: string) => siteContent[key] || fallback;
 
   return (
@@ -199,43 +202,20 @@ export default async function Home() {
             </div>
 
             <div className="work-grid">
-              <article className="project project-gout" data-reveal data-tilt>
-                <div className="project-art">
-                  <div className="gout-stamp">goût<span>pâtisserie</span></div>
-                  <span className="shape shape-a" />
-                  <span className="shape shape-b" />
-                  <span className="shape shape-c" />
-                </div>
-                <div className="project-meta">
-                  <div><span>Branding · E-commerce</span><h3>Goût Pâtisserie</h3></div>
-                  <Arrow diagonal />
-                </div>
-              </article>
-
-              <article className="project project-ormi" data-reveal data-tilt>
-                <div className="project-art">
-                  <div className="ormi-word">ormi<span>flex</span></div>
-                  <div className="ormi-ring ring-one" />
-                  <div className="ormi-ring ring-two" />
-                  <p>Descansar mejor<br />cambia todo.</p>
-                </div>
-                <div className="project-meta">
-                  <div><span>Estrategia · Contenido</span><h3>Ormiflex</h3></div>
-                  <Arrow diagonal />
-                </div>
-              </article>
-
-              <article className="project project-brothers" data-reveal data-tilt>
-                <div className="project-art">
-                  <div className="brothers-monogram">B<span>+</span></div>
-                  <p>TRAIN<br />TOGETHER</p>
-                  <div className="brothers-line" />
-                </div>
-                <div className="project-meta">
-                  <div><span>Social media · Campañas</span><h3>Brothers Training Club</h3></div>
-                  <Arrow diagonal />
-                </div>
-              </article>
+              {featuredProjects.length ? featuredProjects.map((project, index) => (
+                <article className={`project project-featured-${index}`} data-reveal data-tilt key={project.id}>
+                  <Link className="project-featured-link" href={`/portfolio/${project.slug}`}>
+                    <div className="project-art project-art-cover">
+                      {project.coverImageUrl ? <Image className="project-cover-image" src={project.coverImageUrl} alt={`${project.client} - proyecto realizado por Manish`} fill sizes="(max-width: 640px) 100vw, 50vw" /> : <span className="project-cover-placeholder">{project.client}</span>}
+                      <i className="project-cover-shade" />
+                    </div>
+                    <div className="project-meta">
+                      <div><span>{project.services || "Trabajo destacado"}</span><h3>{project.title}</h3></div>
+                      <Arrow diagonal />
+                    </div>
+                  </Link>
+                </article>
+              )) : <p className="featured-empty">Elegí hasta tres proyectos destacados desde el dashboard para mostrarlos acá.</p>}
             </div>
             <SectionCta dark label="¿Querés construir el próximo caso?" text="Conversemos sobre la oportunidad detrás de tu marca." />
           </div>

@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -15,10 +16,10 @@ const images = [
 ];
 
 for (const [slug, filename] of images) {
-  const path = `blog/${filename}`;
-  const file = await readFile(join(process.cwd(), "public", "assets", "blog", filename));
+  const path = `blog/${filename.replace(/\.png$/i, ".webp")}`;
+  const file = await sharp(await readFile(join(process.cwd(), "public", "assets", "blog", filename))).webp({ quality: 82, effort: 4 }).toBuffer();
   const { error: uploadError } = await supabase.storage.from("media").upload(path, file, {
-    contentType: "image/png",
+    contentType: "image/webp",
     cacheControl: "31536000",
     upsert: true,
   });

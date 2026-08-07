@@ -81,9 +81,17 @@ export async function saveProjectAction(form: FormData) {
   const fallbackPath = id ? `/admin/portfolio/${id}` : "/admin/portfolio/nuevo";
   const supabase = await adminDatabase(fallbackPath);
   if (!title || !slug || !client) redirect(`${fallbackPath}?error=required`);
+  const allowedCategories = ["redes", "contenido", "diseno", "desarrollo", "ads"];
+  const categories = form.getAll("categories").filter((value): value is string => typeof value === "string" && allowedCategories.includes(value));
+  const isFeatured = form.get("isFeatured") === "on";
+  if (isFeatured) {
+    const featuredProjects = await supabase.from("projects").select("id").eq("is_featured", true);
+    if (featuredProjects.error) redirect(`${fallbackPath}?error=featured_migration`);
+    if ((featuredProjects.data ?? []).some((project) => project.id !== id) && (featuredProjects.data ?? []).length >= 3) redirect(`${fallbackPath}?error=featured_limit`);
+  }
   const values = {
     title, slug, client, summary: text(form, "summary", 1000), content: sanitizeRichText(text(form, "content", 50000)),
-    services: text(form, "services", 500), year: text(form, "year", 10) || null,
+    services: text(form, "services", 500), categories, is_featured: isFeatured, year: text(form, "year", 10) || null,
     cover_image_url: text(form, "coverImageUrl", 1000) || null,
     status: text(form, "status", 20) === "published" ? "published" : "draft",
     sort_order: Number.parseInt(text(form, "sortOrder", 5), 10) || 0, updated_at: new Date().toISOString(),

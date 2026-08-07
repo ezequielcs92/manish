@@ -6,6 +6,7 @@ import { AdminImageUpload } from "./admin-image-upload";
 import { AdminRichEditor } from "./admin-rich-editor";
 
 export function AdminProjectForm({ project, configured }: { project?: ProjectRecord | null; configured: boolean }) {
+  const categories = [["redes", "Manejo de redes"], ["contenido", "Creación de contenido"], ["diseno", "Diseño gráfico"], ["desarrollo", "Desarrollo"], ["ads", "Ads"]] as const;
   return (
     <>
       <form className="admin-editor" action={saveProjectAction}>
@@ -22,7 +23,7 @@ export function AdminProjectForm({ project, configured }: { project?: ProjectRec
             <label><span>Detalle del caso</span><AdminRichEditor name="content" initialValue={project?.content} /></label>
           </section>
           <aside className="admin-form-stack">
-            <section className="admin-form-card"><h2>Clasificación</h2><label><span>Servicios</span><input name="services" defaultValue={project?.services} placeholder="Branding · E-commerce" /></label><div className="admin-form-row"><label><span>Año</span><input name="year" defaultValue={project?.year ?? new Date().getFullYear()} /></label><label><span>Orden</span><input name="sortOrder" type="number" defaultValue={project?.sortOrder ?? 0} /></label></div></section>
+            <section className="admin-form-card"><h2>Clasificación</h2><label><span>Servicios / detalle</span><input name="services" defaultValue={project?.services} placeholder="Diseño gráfico · Redes sociales" /></label><fieldset className="admin-category-field"><legend>Categorías seleccionadas</legend>{categories.map(([value, label]) => <label key={value}><input name="categories" type="checkbox" value={value} defaultChecked={project?.categories.includes(value)} /><span>{label}</span></label>)}</fieldset><label className="admin-featured-toggle"><input name="isFeatured" type="checkbox" defaultChecked={project?.isFeatured} /><span>Mostrar en el Home como trabajo destacado <small>Podés elegir hasta 3 proyectos.</small></span></label><div className="admin-form-row"><label><span>Año</span><input name="year" defaultValue={project?.year ?? new Date().getFullYear()} /></label><label><span>Orden</span><input name="sortOrder" type="number" defaultValue={project?.sortOrder ?? 0} /></label></div></section>
             <section className="admin-form-card"><h2>Portada</h2><AdminImageUpload name="coverImageUrl" label="Imagen de portada" defaultValue={project?.coverImageUrl ?? ""} /></section>
             {!configured ? <div className="admin-form-warning">Conectá Supabase para guardar.</div> : null}
           </aside>

@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS projects (
   summary TEXT NOT NULL DEFAULT '',
   content TEXT NOT NULL DEFAULT '',
   services TEXT NOT NULL DEFAULT '',
+  categories TEXT[] NOT NULL DEFAULT '{}',
+  is_featured BOOLEAN NOT NULL DEFAULT FALSE,
   year VARCHAR(10),
   cover_image_url TEXT,
   status VARCHAR(20) NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published')),

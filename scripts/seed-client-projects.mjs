@@ -28,22 +28,22 @@ const contentClients = [
 ];
 
 const webProjects = [
-  ["Liga Argentina de Béisbol", "liga-argentina-de-beisbol", "Desarrollo web · Institucional · Comunidad", "https://www.ligaargentinabeisbol.com/"],
-  ["Soberanis Cancún Hotel", "soberanis-cancun-hotel", "Desarrollo web · Hotelería · Turismo", "https://www.soberaniscancunhotel.com/"],
-  ["Progreso Beach Hotel", "progreso-beach-hotel", "Desarrollo web · Hotelería · Turismo", "https://www.progreso-beach.com/es"],
-  ["Fertility Center Cancún", "fertility-center-cancun", "Desarrollo web · Salud · Fertilidad", "https://fertilitycentercancun.com/es"],
-  ["FutFemGol", "futfemgol", "Desarrollo web · Portal deportivo · Noticias", "https://www.futfemgol.com/"],
-  ["Somnomedica", "somnomedica", "Desarrollo web · Institucional · Salud", "https://somnomedica.co/"],
-  ["Uladi", "uladi", "Desarrollo web · Logística · Distribución", "https://uladi.com.mx/"],
-  ["Entre Sierras", "entre-sierras", "Desarrollo web · Inmobiliaria · Residencial", "https://entresierras.com.mx/"],
-  ["Tienda Parres", "tienda-parres", "Desarrollo web · WooCommerce · B2B", "https://tienda.parres.com.mx/"],
-  ["Satori Latam", "satori-latam", "Desarrollo web · Corporativo · Consultoría", "https://satorilatam.com/"],
-  ["Compower", "compower", "Desarrollo web · ONG · Impacto social", "https://compower.com.co/"],
-  ["Les Caprices de Marianne", "les-caprices-de-marianne", "Desarrollo web · Cultura · Eventos", "https://www.caprices-de-marianne.fr/"],
-  ["Innova Armonía Dental", "innova-armonia-dental", "Desarrollo web · Salud · Servicios", "https://www.innovaarmoniadental.com/"],
-  ["Terrazas Lamadrid", "terrazas-lamadrid", "Desarrollo web · Residencia · Cuidados", "https://terrazaslamadrid.com.ar/"],
-  ["Emotions Cancún", "emotions-cancun", "Desarrollo web · Educación · Bienestar", "https://emotionscancun.com/"],
-  ["DOMA Sculpt Center", "doma-sculpt-center", "Desarrollo web · Salud · Institucional", "https://www.domasculptcenter.com/"],
+  ["Liga Argentina de Béisbol", "liga-argentina-de-beisbol", "Desarrollo web", "https://www.ligaargentinabeisbol.com/"],
+  ["Soberanis Cancún Hotel", "soberanis-cancun-hotel", "Desarrollo web", "https://www.soberaniscancunhotel.com/"],
+  ["Progreso Beach Hotel", "progreso-beach-hotel", "Desarrollo web", "https://www.progreso-beach.com/es"],
+  ["Fertility Center Cancún", "fertility-center-cancun", "Desarrollo web", "https://fertilitycentercancun.com/es"],
+  ["FutFemGol", "futfemgol", "Desarrollo web", "https://www.futfemgol.com/"],
+  ["Somnomedica", "somnomedica", "Desarrollo web", "https://somnomedica.co/"],
+  ["Uladi", "uladi", "Desarrollo web", "https://uladi.com.mx/"],
+  ["Entre Sierras", "entre-sierras", "Desarrollo web", "https://entresierras.com.mx/"],
+  ["Tienda Parres", "tienda-parres", "Desarrollo web", "https://tienda.parres.com.mx/"],
+  ["Satori Latam", "satori-latam", "Desarrollo web", "https://satorilatam.com/"],
+  ["Compower", "compower", "Desarrollo web", "https://compower.com.co/"],
+  ["Les Caprices de Marianne", "les-caprices-de-marianne", "Desarrollo web", "https://www.caprices-de-marianne.fr/"],
+  ["Innova Armonía Dental", "innova-armonia-dental", "Desarrollo web", "https://www.innovaarmoniadental.com/"],
+  ["Terrazas Lamadrid", "terrazas-lamadrid", "Desarrollo web", "https://terrazaslamadrid.com.ar/"],
+  ["Emotions Cancún", "emotions-cancun", "Desarrollo web", "https://emotionscancun.com/"],
+  ["DOMA Sculpt Center", "doma-sculpt-center", "Desarrollo web", "https://www.domasculptcenter.com/"],
 ];
 
 function links(primaryUrl, secondaryUrl) {

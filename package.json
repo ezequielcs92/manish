@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "publish:blog-images": "node --env-file=.env.local scripts/publish-blog-images.mjs",
-    "capture:portfolio": "node --env-file=.env.local scripts/capture-portfolio-covers.mjs"
+    "capture:portfolio": "node --env-file=.env.local scripts/capture-portfolio-covers.mjs",
+    "optimize:media": "node --env-file=.env.local scripts/optimize-media.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.4",
@@ -18,7 +19,8 @@
     "next": "16.2.12",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "sanitize-html": "^2.17.6"
+    "sanitize-html": "^2.17.6",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",

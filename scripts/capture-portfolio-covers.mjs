@@ -1,6 +1,7 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { chromium } from "playwright-core";
+import sharp from "sharp";
 import { createClient } from "@supabase/supabase-js";
 
 const browserPath = process.env.CHROME_PATH ?? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
@@ -65,8 +66,9 @@ for (const [slug, url] of sources) {
     await page.keyboard.press("Escape").catch(() => {});
     await page.screenshot({ path: filePath, type: "png", fullPage: false, ...(isInstagram ? { clip: { x: 0, y: 0, width: 390, height: 219 } } : {}) });
     const file = await readFile(filePath);
-    const storagePath = `portfolio/${slug}.png`;
-    const { error: uploadError } = await supabase.storage.from("media").upload(storagePath, file, { contentType: "image/png", cacheControl: "31536000", upsert: true });
+    const optimized = await sharp(file).webp({ quality: 82, effort: 4 }).toBuffer();
+    const storagePath = `portfolio/${slug}.webp`;
+    const { error: uploadError } = await supabase.storage.from("media").upload(storagePath, optimized, { contentType: "image/webp", cacheControl: "31536000", upsert: true });
     if (uploadError) throw uploadError;
     const { data } = supabase.storage.from("media").getPublicUrl(storagePath);
     const { error: updateError } = await supabase.from("projects").update({ cover_image_url: data.publicUrl, updated_at: new Date().toISOString() }).eq("slug", slug);
