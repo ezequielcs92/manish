@@ -1348,8 +1348,8 @@ summary {
   .stage-card-two { animation: chip-float 5.4s ease-in-out -1.8s infinite; }
   .stage-card-three { animation: chip-float 4.4s ease-in-out -0.8s infinite; }
   .stage-status i { animation: status-pulse 1.9s ease-out infinite; }
-  .client-track { animation: client-scroll 48s linear infinite; }
-  .client-proof-track { animation: client-scroll 48s linear infinite; }
+  .client-track { animation: client-scroll 90s linear infinite; }
+  .client-proof-track { animation: client-scroll 90s linear infinite; }
   .kinetic-track { animation: ribbon-scroll 17s linear infinite; }
 
   @keyframes orbit-spin {
@@ -2182,6 +2182,7 @@ summary {
   .inner-statement h2, .inner-heading h2, .about-manifesto h2, .journal-heading h2, .editorial-principle h2, .contact-page-layout aside h2 { font-size: 43px; }
   .offering-layout { gap: 42px; }
   .offering-title h2 { font-size: 45px; }
+  .offering-title-03 h2 { font-size: clamp(38px, 8.2vw, 45px); }
   .service-accordion summary { grid-template-columns: 30px 1fr 24px; font-size: 14px; }
   .service-accordion details > p { margin-left: 40px; font-size: 13px; }
   .inner-heading { grid-template-columns: 1fr; gap: 20px; }

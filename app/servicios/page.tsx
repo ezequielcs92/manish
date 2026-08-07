@@ -72,9 +72,9 @@ export default function ServiciosPage() {
           {groups.map((group) => (
             <section className="offering-section" key={group.number}>
               <div className="container offering-layout">
-                <div className="offering-title" data-reveal>
+                <div className={`offering-title offering-title-${group.number}`} data-reveal>
                   <span>{group.number}</span>
-                  <h2>{group.title}</h2>
+                  <h2>{group.number === "03" ? <>Desarrollo y<br />tecnología</> : group.title}</h2>
                   <p>{group.description}</p>
                   <SectionCta label="¿Es lo que necesitás?" text={`Conversemos sobre ${group.title.toLowerCase()} para tu marca.`} />
                 </div>

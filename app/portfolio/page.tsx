@@ -77,13 +77,13 @@ export default async function PortfolioPage({ searchParams }: { searchParams: Pr
           <div className="container portfolio-toolbar" data-reveal>
             <p>TRABAJO SELECCIONADO</p>
             <div aria-label="Disciplinas del trabajo seleccionado">
-              {categoryOptions.map(([value, label]) => <Link className={activeCategory === value ? "active" : ""} href={value === "all" ? "/portfolio" : `/portfolio?category=${value}`} aria-current={activeCategory === value ? "page" : undefined} key={value}>{label}</Link>)}
+              {categoryOptions.map(([value, label]) => <Link scroll className={activeCategory === value ? "active" : ""} href={value === "all" ? "/portfolio" : `/portfolio?category=${value}`} aria-current={activeCategory === value ? "page" : undefined} key={value}>{label}</Link>)}
             </div>
           </div>
 
           <div className="container case-grid">
-            {filteredCases.map((project, index) => (
-              <article className={`case-card ${project.className} ${index === 0 || index === 3 ? "case-wide" : ""}`} key={project.client} data-reveal data-tilt>
+            {filteredCases.map((project) => (
+              <article className={`case-card ${project.className}`} key={project.client} data-reveal data-tilt>
                 <div className={`case-art${project.coverImageUrl ? " has-cover" : ""}`}>
                   {project.coverImageUrl ? <><Image src={project.coverImageUrl} alt={`${project.client} - proyecto realizado por Manish`} fill sizes="(max-width: 640px) 100vw, 50vw" /><i className="case-cover-shade" /></> : null}
                   <div className="case-grid-lines" />
