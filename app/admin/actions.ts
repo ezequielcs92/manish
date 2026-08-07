@@ -99,6 +99,7 @@ export async function saveProjectAction(form: FormData) {
   const result = id ? await supabase.from("projects").update(values).eq("id", id) : await supabase.from("projects").insert(values);
   if (result.error) redirect(`${fallbackPath}?error=save`);
   revalidatePath("/admin/portfolio");
+  revalidatePath("/");
   revalidatePath("/portfolio");
   revalidatePath("/sitemap.xml");
   revalidatePath(`/portfolio/${slug}`);
