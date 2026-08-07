@@ -1348,8 +1348,8 @@ summary {
   .stage-card-two { animation: chip-float 5.4s ease-in-out -1.8s infinite; }
   .stage-card-three { animation: chip-float 4.4s ease-in-out -0.8s infinite; }
   .stage-status i { animation: status-pulse 1.9s ease-out infinite; }
-  .client-track { animation: client-scroll 24s linear infinite; }
-  .client-proof-track { animation: client-scroll 24s linear infinite; }
+  .client-track { animation: client-scroll 48s linear infinite; }
+  .client-proof-track { animation: client-scroll 48s linear infinite; }
   .kinetic-track { animation: ribbon-scroll 17s linear infinite; }
 
   @keyframes orbit-spin {
