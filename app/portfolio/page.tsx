@@ -9,6 +9,7 @@ import { getPublishedProjects } from "@/lib/admin-content";
 import { createPageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = createPageMetadata("Portfolio", "Una selección de marcas, sistemas y experiencias digitales desarrolladas por Manish.", "/portfolio");
+export const revalidate = 300;
 
 const cases = [
   { client: "Goût Pâtisserie", type: "Branding · E-commerce", year: "2026", className: "case-gout", word: "goût", note: "SABOR CON IDENTIDAD" },
@@ -66,8 +67,8 @@ export default async function PortfolioPage() {
 
         <section className="client-proof">
           <div className="container client-proof-layout" data-reveal>
-            <p>También confían en nosotros</p>
-            <div><span>Goût</span><span>Ormiflex</span><span>Brothers</span><span>Ridigas</span><span>Actron</span></div>
+            <p>Cuentas y proyectos con los que trabajamos</p>
+            <div>{visibleCases.map((project) => <span key={project.client}>{project.client}</span>)}</div>
           </div>
         </section>
 
