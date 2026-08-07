@@ -1975,7 +1975,7 @@ summary {
 
 .case-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 70px 20px;
   margin-top: 55px;
 }
@@ -1988,8 +1988,8 @@ summary {
   transition: transform 180ms ease-out;
 }
 
-.case-wide { grid-column: span 2; }
-.case-wide .case-art { min-height: 610px; }
+.case-wide { grid-column: auto; }
+.case-wide .case-art { min-height: 470px; }
 .case-art { position: relative; overflow: hidden; min-height: 470px; background: #7c579b; transform: translateZ(15px); }
 .case-art.has-cover { background: var(--dark); }
 .case-art.has-cover > img { object-fit: cover; transition: transform 500ms ease; }

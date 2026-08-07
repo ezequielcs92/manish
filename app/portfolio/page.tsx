@@ -23,19 +23,21 @@ const cases = [
 
 const categoryOptions = [
   ["all", "Todo"],
-  ["marketing", "Marketing"],
-  ["marca", "Marca"],
-  ["contenido", "Contenido"],
-  ["digital", "Digital"],
+  ["redes", "Manejo de redes"],
+  ["contenido", "Creación de contenido"],
+  ["diseno", "Diseño gráfico"],
+  ["desarrollo", "Desarrollo"],
+  ["ads", "Ads"],
 ] as const;
 
 function projectCategories(services: string) {
   const value = services.toLowerCase();
   return [
-    value.match(/redes|ads|marketing|seo|paid/) ? "marketing" : null,
-    value.match(/diseño|branding|marca|merch/) ? "marca" : null,
-    value.match(/contenido|social/) ? "contenido" : null,
-    value.match(/web|digital|desarrollo|woocommerce|e-commerce|software/) ? "digital" : null,
+    value.match(/redes|social/) ? "redes" : null,
+    value.match(/contenido/) ? "contenido" : null,
+    value.match(/diseño|diseno|branding|merch/) ? "diseno" : null,
+    value.match(/web|digital|desarrollo|woocommerce|e-commerce|software/) ? "desarrollo" : null,
+    value.match(/ads|paid/) ? "ads" : null,
   ].filter((category): category is string => Boolean(category));
 }
 
