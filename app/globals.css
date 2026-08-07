@@ -2966,7 +2966,7 @@ summary {
 }
 
 .case-editorial-meta { display: flex; gap: 25px; margin-top: 34px; color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; }
-.case-project-action { margin-top: 18px; }
+.editorial-body .case-project-action { margin-top: 18px; color: #fff; text-decoration: none; }
 
 .editorial-body {
   max-width: 850px;
