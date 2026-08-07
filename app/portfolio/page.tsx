@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { PageCta } from "@/components/page-cta";
 import { PageHero } from "@/components/page-hero";
@@ -23,8 +24,8 @@ export default async function PortfolioPage() {
   const storedProjects = await getPublishedProjects().catch(() => []);
   const visibleCases = storedProjects.length ? storedProjects.map((project, index) => ({
     client: project.client, type: project.services, year: project.year || "", className: ["case-gout", "case-ormi", "case-brothers", "case-ridigas", "case-actron"][index % 5],
-    word: project.title, note: project.summary, slug: project.slug,
-  })) : cases.map((project) => ({ ...project, slug: "" }));
+    word: project.title, note: project.summary, slug: project.slug, coverImageUrl: project.coverImageUrl,
+  })) : cases.map((project) => ({ ...project, slug: "", coverImageUrl: null }));
 
   return (
     <>
@@ -49,9 +50,10 @@ export default async function PortfolioPage() {
           <div className="container case-grid">
             {visibleCases.map((project, index) => (
               <article className={`case-card ${project.className} ${index === 0 || index === 3 ? "case-wide" : ""}`} key={project.client} data-reveal data-tilt>
-                <div className="case-art">
+                <div className={`case-art${project.coverImageUrl ? " has-cover" : ""}`}>
+                  {project.coverImageUrl ? <><Image src={project.coverImageUrl} alt={`${project.client} - proyecto realizado por Manish`} fill sizes="(max-width: 640px) 100vw, 50vw" /><i className="case-cover-shade" /></> : null}
                   <div className="case-grid-lines" />
-                  <span className="case-word">{project.word}</span>
+                  {!project.coverImageUrl ? <span className="case-word">{project.word}</span> : null}
                   <span className="case-note">{project.note}</span>
                   <i className="case-shape shape-one" /><i className="case-shape shape-two" />
                 </div>

@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
-    "publish:blog-images": "node --env-file=.env.local scripts/publish-blog-images.mjs"
+    "publish:blog-images": "node --env-file=.env.local scripts/publish-blog-images.mjs",
+    "capture:portfolio": "node --env-file=.env.local scripts/capture-portfolio-covers.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.4",
@@ -28,6 +29,7 @@
     "eslint": "^9.0.0",
     "eslint-config-next": "16.2.12",
     "opentype.js": "^2.0.0",
+    "playwright-core": "^1.62.1",
     "tailwindcss": "4.3.3",
     "typescript": "^5.9.0"
   },
