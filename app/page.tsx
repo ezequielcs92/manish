@@ -208,7 +208,7 @@ export default async function Home() {
                 <article className={`project project-featured-${index}`} data-reveal data-tilt key={project.id}>
                   <Link className="project-featured-link" href={`/portfolio/${project.slug}`}>
                     <div className="project-art project-art-cover">
-                      {project.coverImageUrl ? <Image className="project-cover-image" src={project.coverImageUrl} alt={`${project.client} - proyecto realizado por Manish`} fill sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw" /> : <span className="project-cover-placeholder">{project.client}</span>}
+                      {project.coverImageUrl ? <Image className="project-cover-image" src={project.coverImageUrl} alt={`${project.client} - proyecto realizado por Manish`} fill sizes="(max-width: 640px) 100vw, 50vw" /> : <span className="project-cover-placeholder">{project.client}</span>}
                       <i className="project-cover-shade" />
                     </div>
                     <div className="project-meta">
