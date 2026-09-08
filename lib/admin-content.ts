@@ -80,7 +80,7 @@ export async function getFeaturedProjects() {
     .eq("is_featured", true)
     .order("sort_order")
     .order("updated_at", { ascending: false })
-    .limit(3);
+    .limit(4);
   if (error) throw error;
   return (data ?? []).map(mapProject);
 }

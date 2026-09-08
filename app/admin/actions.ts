@@ -87,7 +87,8 @@ export async function saveProjectAction(form: FormData) {
   if (isFeatured) {
     const featuredProjects = await supabase.from("projects").select("id").eq("is_featured", true);
     if (featuredProjects.error) redirect(`${fallbackPath}?error=featured_migration`);
-    if ((featuredProjects.data ?? []).some((project) => project.id !== id) && (featuredProjects.data ?? []).length >= 3) redirect(`${fallbackPath}?error=featured_limit`);
+    const otherFeaturedProjects = (featuredProjects.data ?? []).filter((project) => project.id !== id);
+    if (otherFeaturedProjects.length >= 4) redirect(`${fallbackPath}?error=featured_limit`);
   }
   const values = {
     title, slug, client, summary: text(form, "summary", 1000), content: sanitizeRichText(text(form, "content", 50000)),
